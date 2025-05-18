@@ -103,7 +103,7 @@ plt.figure(figsize=(12, 10))
 
 # Plot angle distribution
 plt.plot()
-bins = np.arange(0, 181, 5)  # Bins from 0 to 180 degrees
+bins = np.arange(0, 181, 5)
 plt.hist([right_angles, left_angles], bins=bins, alpha=0.7, 
          label=['Right group', 'Left group'], color=['red', 'green'])
 plt.xlabel('Angle (degrees)')
