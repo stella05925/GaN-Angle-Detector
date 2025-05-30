@@ -5,6 +5,7 @@ from PIL import Image
 from skimage.draw import line
 from scipy.stats import cauchy
 from scipy.optimize import curve_fit
+from fitter import Fitter, get_common_distributions, get_distributions
 
 image = Image.open('TEM/DF-17500x-220-20obj-cGaN-01.tif')
 
@@ -61,17 +62,17 @@ for point in reversed(border_pts_right):
     # line from (1024,1024) to point along right border of image
     rr, cc = line(center[0], center[1], point[0], point[1])
     brightness.append(np.mean(magnitude[rr, cc]))
-    angle.append(float(np.atan2(point[0] - center[0], point[1] - center[1])))
+    angle.append(float(np.arctan2(point[0] - center[0], point[1] - center[1])))
 
 for point in reversed(border_pts_top):
     rr, cc = line(center[0], center[1], point[0], point[1])
     brightness.append(np.mean(magnitude[rr, cc]))
-    angle.append(float(np.atan2(point[0] - center[0], point[1] - center[1])))
+    angle.append(float(np.arctan2(point[0] - center[0], point[1] - center[1])))
 
 for point in border_pts_left:
     rr, cc = line(center[0], center[1], point[0], point[1])
     brightness.append(np.mean(magnitude[rr, cc]))
-    angle.append(float(np.atan2(point[0] - center[0], point[1] - center[1])))
+    angle.append(float(np.arctan2(point[0] - center[0], point[1] - center[1])))
 
 y = np.array(brightness)
 
@@ -112,6 +113,7 @@ peak_left_brightness = brightness[condition_left]
 # plt.show()
 
 # fit cauchy using scipy
+# 2 new methods used: scipy.stats.cauchy, scipy.optimize.curve_fit
 
 def cauchy_function_right(x, loc, scale):
     pdf_values = cauchy.pdf(x, loc=loc, scale=scale)
@@ -148,11 +150,19 @@ fitted_curve_left = cauchy_function_left(peak_left_angles, *fit_left)
 print(f"[location, scale]\nparameters for right curve:{fit_right}\nparameters for left curve:{fit_left}")
 
 # Plot comparison
-plt.subplot(1,2,1)
-plt.plot(peak_right_angles, peak_right_brightness, 'o', label='Original data')
-plt.plot(peak_right_angles, fitted_curve_right, '-', label='Cauchy fit')
-plt.subplot(1,2,2)
-plt.plot(peak_left_angles, peak_left_brightness, 'o', label='Original data')
-plt.plot(peak_left_angles, fitted_curve_left, '-', label='Cauchy fit')
-plt.legend()
-plt.show()
+# plt.subplot(1,2,1)
+# plt.plot(peak_right_angles, peak_right_brightness, 'o', label='Original data')
+# plt.plot(peak_right_angles, fitted_curve_right, '-', label='Cauchy fit')
+# plt.subplot(1,2,2)
+# plt.plot(peak_left_angles, peak_left_brightness, 'o', label='Original data')
+# plt.plot(peak_left_angles, fitted_curve_left, '-', label='Cauchy fit')
+# plt.legend()
+# plt.show()
+
+def fitter_method(data):
+    f = Fitter(data,
+           distributions=get_common_distributions())
+    f.fit()
+    f.summary()
+
+fitter_method(peak_right_brightness)
