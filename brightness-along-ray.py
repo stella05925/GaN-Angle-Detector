@@ -150,19 +150,19 @@ fitted_curve_left = cauchy_function_left(peak_left_angles, *fit_left)
 print(f"[location, scale]\nparameters for right curve:{fit_right}\nparameters for left curve:{fit_left}")
 
 # Plot comparison
-# plt.subplot(1,2,1)
-# plt.plot(peak_right_angles, peak_right_brightness, 'o', label='Original data')
-# plt.plot(peak_right_angles, fitted_curve_right, '-', label='Cauchy fit')
-# plt.subplot(1,2,2)
-# plt.plot(peak_left_angles, peak_left_brightness, 'o', label='Original data')
-# plt.plot(peak_left_angles, fitted_curve_left, '-', label='Cauchy fit')
-# plt.legend()
-# plt.show()
+plt.subplot(1,2,1)
+plt.plot(peak_right_angles, peak_right_brightness, 'o', label='Original data')
+plt.plot(peak_right_angles, fitted_curve_right, '-', label='Cauchy fit')
+plt.subplot(1,2,2)
+plt.plot(peak_left_angles, peak_left_brightness, 'o', label='Original data')
+plt.plot(peak_left_angles, fitted_curve_left, '-', label='Cauchy fit')
+plt.legend()
+plt.show()
 
-def fitter_method(data):
-    f = Fitter(data,
-           distributions=get_common_distributions())
-    f.fit()
-    f.summary()
+# def fitter_method(data):
+#     f = Fitter(data,
+#            distributions=get_common_distributions())
+#     f.fit()
+#     f.summary()
 
-fitter_method(peak_right_brightness)
+# fitter_method(peak_right_brightness)
