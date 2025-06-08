@@ -5,7 +5,7 @@ The Purpose of this project is to extract a precise angle with error measure fro
 ### Documentation of Implementation Process (from worst to best):
 
 ### 1. OpenCV Methods (edge + line detection)
-MATLAB `experiment.m` --> `angle-detector.py` \
+MATLAB `experiment.m` --> `angle-detector.py` 
 
 Implementation steps:
 1. Gaussian blur image
@@ -26,19 +26,21 @@ Implementation steps:
 
 ### 2. Extract Brightness Values by Angle
 `brightness-along-ray.py` \
+ \
 Overview:\
+ \
 Summing pixel brightness of FFT image by shooting a a line from center to all border pixels in the top half of the image. Plot brightness values along line against the angle of the line. Fit cauchy curve to the plot in the 2 angle regions of interest.
 
 Implementation steps:
 1. Convert image to frequency representation
 <p align="center">
-    <img src="results_plots/figure_2.png" width="300"/>
+    <img src="results_plots/Figure_2.png" width="300"/>
 </p>
 2. Calculate and store the border pixel coordinates into seperate arrays (right, top, left)
 3. Iterate through each coordinate array, calculate and store the mean of all pixel brightness along the ray shot from the center pixel to a border pixel, calculate and store the angle of each ray
 4. Above steps result in 2 arrays of brightness values (y-values) and angle values (x-values)
 <p align="center">
-    <img src="results_plots/plot_radians.png" width="300"/>
+    <img src="results_plots/Plot_radians.png" width="300"/>
 </p>
 5. Fit Cauchy curve to the brightness and angle values with an initial guess for the location and scale parameters using the known values
 6. Visualize the curve fit against the brightness values
